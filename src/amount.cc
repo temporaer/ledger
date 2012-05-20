@@ -398,7 +398,8 @@ int amount_t::compare(const amount_t& amt) const
   if (has_commodity() && amt.has_commodity() && commodity() != amt.commodity()) {
     throw_(amount_error,
            _f("Cannot compare amounts with different commodities: '%1%' and '%2%'")
-           % commodity() % amt.commodity());
+           % boost::lexical_cast<std::string>(commodity()) 
+           % boost::lexical_cast<std::string>(amt.commodity()));
   }
 
   return mpq_cmp(MP(quantity), MP(amt.quantity));
@@ -433,7 +434,8 @@ amount_t& amount_t::operator+=(const amount_t& amt)
   if (has_commodity() && amt.has_commodity() && commodity() != amt.commodity()) {
     throw_(amount_error,
            _f("Adding amounts with different commodities: '%1%' != '%2%'")
-           % commodity() % amt.commodity());
+           % boost::lexical_cast<std::string>(commodity()) 
+           % boost::lexical_cast<std::string>(amt.commodity()));
   }
 
   _dup();
@@ -463,7 +465,8 @@ amount_t& amount_t::operator-=(const amount_t& amt)
   if (has_commodity() && amt.has_commodity() && commodity() != amt.commodity()) {
     throw_(amount_error,
            _f("Subtracting amounts with different commodities: '%1%' != '%2%'")
-           % commodity() % amt.commodity());
+           % boost::lexical_cast<std::string>(commodity()) 
+           % boost::lexical_cast<std::string>(amt.commodity()));
   }
 
   _dup();

@@ -298,7 +298,7 @@ namespace {
 
         if (! acct)
           throw_(std::runtime_error,
-                 _f("Could not find an account matching '%1%'") % args[0]);
+                 _f("Could not find an account matching '%1%'") % boost::lexical_cast<std::string>(args[0]));
 
         return value_t(static_cast<scope_t *>(acct));
       }

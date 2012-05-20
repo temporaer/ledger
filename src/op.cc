@@ -555,8 +555,8 @@ value_t expr_t::op_t::calc_call(scope_t& scope, ptr_op_t * locus,
     }
   }
   catch (const std::exception&) {
-    add_error_context(_f("While calling function '%1% %2%':") % name
-                      % call_args.args);
+    add_error_context(_f("While calling function '%1% %2%':") % boost::lexical_cast<std::string>(name)
+                      % boost::lexical_cast<std::string>(call_args.args));
     throw;
   }
 }

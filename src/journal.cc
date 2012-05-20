@@ -225,10 +225,10 @@ void journal_t::register_commodity(commodity_t& comm,
         comm.add_flags(COMMODITY_KNOWN);
       }
       else if (checking_style == CHECK_WARNING) {
-        current_context->warning(_f("Unknown commodity '%1%'") % comm);
+        current_context->warning(_f("Unknown commodity '%1%'") % boost::lexical_cast<std::string>(comm));
       }
       else if (checking_style == CHECK_ERROR) {
-        throw_(parse_error, _f("Unknown commodity '%1%'") % comm);
+        throw_(parse_error, _f("Unknown commodity '%1%'") % boost::lexical_cast<std::string>(comm));
       }
     }
   }
@@ -281,11 +281,11 @@ void journal_t::register_metadata(const string& key, const value_t& value,
         if ((*i).second.second == expr_t::EXPR_ASSERTION)
           throw_(parse_error,
                  _f("Metadata assertion failed for (%1%: %2%): %3%")
-                 % key % value % (*i).second.first);
+                 % boost::lexical_cast<std::string>(key) % boost::lexical_cast<std::string>(value) % boost::lexical_cast<std::string>((*i).second.first));
         else
           current_context->warning
             (_f("Metadata check failed for (%1%: %2%): %3%")
-             % key % value % (*i).second.first);
+             % boost::lexical_cast<std::string>(key) % boost::lexical_cast<std::string>(value) % boost::lexical_cast<std::string>((*i).second.first));
       }
     }
   }

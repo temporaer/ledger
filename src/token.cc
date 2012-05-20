@@ -479,9 +479,9 @@ void expr_t::token_t::unexpected(const char wanted)
     case TOK_EOF:
       throw_(parse_error, _("Unexpected end of expression"));
     case IDENT:
-      throw_(parse_error, _f("Unexpected symbol '%1%'") % value);
+      throw_(parse_error, _f("Unexpected symbol '%1%'") % boost::lexical_cast<std::string>(value));
     case VALUE:
-      throw_(parse_error, _f("Unexpected value '%1%'") % value);
+      throw_(parse_error, _f("Unexpected value '%1%'") % boost::lexical_cast<std::string>(value));
     default:
       throw_(parse_error, _f("Unexpected expression token '%1%'") % symbol);
     }
@@ -492,10 +492,10 @@ void expr_t::token_t::unexpected(const char wanted)
              _f("Unexpected end of expression (wanted '%1%')") % wanted);
     case IDENT:
       throw_(parse_error,
-             _f("Unexpected symbol '%1%' (wanted '%2%')") % value % wanted);
+             _f("Unexpected symbol '%1%' (wanted '%2%')") % boost::lexical_cast<std::string>(value) % wanted);
     case VALUE:
       throw_(parse_error,
-             _f("Unexpected value '%1%' (wanted '%2%')") % value % wanted);
+             _f("Unexpected value '%1%' (wanted '%2%')") % boost::lexical_cast<std::string>(value) % wanted);
     default:
       throw_(parse_error, _f("Unexpected expression token '%1%' (wanted '%2%')")
              % symbol % wanted);

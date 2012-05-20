@@ -1624,7 +1624,7 @@ post_t * instance_t::parse_post(char *          line,
         if (! post->amount.is_null()) {
           diff -= post->amount;
           if (! diff.is_zero())
-            throw_(parse_error, _f("Balance assertion off by %1%") % diff);
+            throw_(parse_error, _f("Balance assertion off by %1%") % (float)diff);
         } else {
           post->amount = diff;
           DEBUG("textual.parse", "line " << context.linenum << ": "

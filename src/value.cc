@@ -120,7 +120,7 @@ value_t::operator bool() const
     return ! as_any().empty();
   }
 
-  add_error_context(_f("While taking boolean value of %1%:") % *this);
+  add_error_context(_f("While taking boolean value of %1%:") % boost::lexical_cast<std::string>(*this));
   throw_(value_error, _f("Cannot determine truth of %1%") % label());
 
   return false;
@@ -307,7 +307,7 @@ value_t value_t::number() const
     break;
   }
 
-  add_error_context(_f("While calling number() on %1%:") % *this);
+  add_error_context(_f("While calling number() on %1%:") % boost::lexical_cast<std::string>(*this));
   throw_(value_error, _f("Cannot determine numeric value of %1%") % label());
 
   return false;
@@ -331,7 +331,9 @@ value_t& value_t::operator+=(const value_t& val)
         for (; i != end(); i++, j++)
           *i += *j;
       } else {
-        add_error_context(_f("While adding %1% to %2%:") % val % *this);
+        add_error_context(_f("While adding %1% to %2%:") 
+                % boost::lexical_cast<std::string>(val) 
+                % boost::lexical_cast<std::string>(*this));
         throw_(value_error, _("Cannot add sequences of different lengths"));
       }
     } else {
@@ -442,7 +444,9 @@ value_t& value_t::operator+=(const value_t& val)
     break;
   }
 
-  add_error_context(_f("While adding %1% to %2%:") % val % *this);
+  add_error_context(_f("While adding %1% to %2%:") 
+          % boost::lexical_cast<std::string>(val) 
+          % boost::lexical_cast<std::string>(*this));
   throw_(value_error, _f("Cannot add %1% to %2%") % val.label() % label());
 
   return *this;
@@ -461,7 +465,7 @@ value_t& value_t::operator-=(const value_t& val)
         for (; i != end(); i++, j++)
           *i -= *j;
       } else {
-        add_error_context(_f("While subtracting %1% from %2%:") % val % *this);
+        add_error_context(_f("While subtracting %1% from %2%:") % boost::lexical_cast<std::string>(val) % boost::lexical_cast<std::string>(*this));
         throw_(value_error, _("Cannot subtract sequences of different lengths"));
       }
     } else {
@@ -582,7 +586,9 @@ value_t& value_t::operator-=(const value_t& val)
     break;
   }
 
-  add_error_context(_f("While subtracting %1% from %2%:") % val % *this);
+  add_error_context(_f("While subtracting %1% from %2%:") 
+          % boost::lexical_cast<std::string>(val) 
+          % boost::lexical_cast<std::string>(*this));
   throw_(value_error, _f("Cannot subtract %1% from %2%") % val.label() % label());
 
   return *this;
@@ -664,7 +670,9 @@ value_t& value_t::operator*=(const value_t& val)
     break;
   }
 
-  add_error_context(_f("While multiplying %1% with %2%:") % val % *this);
+  add_error_context(_f("While multiplying %1% with %2%:") 
+          % boost::lexical_cast<std::string>(val) 
+          % boost::lexical_cast<std::string>(*this));
   throw_(value_error, _f("Cannot multiply %1% with %2%") % label() % val.label());
 
   return *this;
@@ -742,7 +750,9 @@ value_t& value_t::operator/=(const value_t& val)
     break;
   }
 
-  add_error_context(_f("While dividing %1% by %2%:") % *this % val);
+  add_error_context(_f("While dividing %1% by %2%:") 
+          % boost::lexical_cast<std::string>(*this) 
+          % boost::lexical_cast<std::string>(val));
   throw_(value_error, _f("Cannot divide %1% by %2%") % label() % val.label());
 
   return *this;
@@ -828,7 +838,9 @@ bool value_t::is_equal_to(const value_t& val) const
     break;
   }
 
-  add_error_context(_f("While comparing equality of %1% and %2%:") % *this % val);
+  add_error_context(_f("While comparing equality of %1% and %2%:") 
+          % boost::lexical_cast<std::string>(*this) 
+          % boost::lexical_cast<std::string>(val));
   throw_(value_error, _f("Cannot compare %1% to %2%") % label() % val.label());
 
   return *this;
@@ -948,7 +960,9 @@ bool value_t::is_less_than(const value_t& val) const
     break;
   }
 
-  add_error_context(_f("While comparing if %1% is less than %2%:") % *this % val);
+  add_error_context(_f("While comparing if %1% is less than %2%:") 
+          % boost::lexical_cast<std::string>(*this) 
+          % boost::lexical_cast<std::string>(val));
   throw_(value_error, _f("Cannot compare %1% to %2%") % label() % val.label());
 
   return *this;
@@ -1063,7 +1077,9 @@ bool value_t::is_greater_than(const value_t& val) const
     break;
   }
 
-  add_error_context(_f("While comparing if %1% is greater than %2%:") % *this % val);
+  add_error_context(_f("While comparing if %1% is greater than %2%:") 
+          % boost::lexical_cast<std::string>(*this) 
+          % boost::lexical_cast<std::string>(val));
   throw_(value_error, _f("Cannot compare %1% to %2%") % label() % val.label());
 
   return *this;
@@ -1205,7 +1221,7 @@ void value_t::in_place_cast(type_t cast_type)
         return;
       }
       else {
-        add_error_context(_f("While converting %1% to an amount:") % *this);
+        add_error_context(_f("While converting %1% to an amount:") % boost::lexical_cast<std::string>(*this));
         throw_(value_error, _f("Cannot convert %1% with multiple commodities to %2%")
                % label() % label(cast_type));
       }
@@ -1263,7 +1279,7 @@ void value_t::in_place_cast(type_t cast_type)
     break;
   }
 
-  add_error_context(_f("While converting %1%:") % *this);
+  add_error_context(_f("While converting %1%:") % boost::lexical_cast<std::string>(*this));
   throw_(value_error,
          _f("Cannot convert %1% to %2%") % label() % label(cast_type));
 }
@@ -1295,7 +1311,8 @@ void value_t::in_place_negate()
     break;
   }
 
-  add_error_context(_f("While negating %1%:") % *this);
+  add_error_context(_f("While negating %1%:") 
+          % boost::lexical_cast<std::string>(*this));
   throw_(value_error, _f("Cannot negate %1%") % label());
 }
 
@@ -1329,7 +1346,7 @@ void value_t::in_place_not()
     break;
   }
 
-  add_error_context(_f("While applying not to %1%:") % *this);
+  add_error_context(_f("While applying not to %1%:") % boost::lexical_cast<std::string>(*this));
   throw_(value_error, _f("Cannot 'not' %1%") % label());
 }
 
@@ -1359,7 +1376,7 @@ bool value_t::is_realzero() const
     return as_any().empty();
 
   default:
-    add_error_context(_f("While applying is_realzero to %1%:") % *this);
+    add_error_context(_f("While applying is_realzero to %1%:") % boost::lexical_cast<std::string>(*this));
     throw_(value_error, _f("Cannot determine if %1% is really zero") % label());
   }
   return false;
@@ -1391,7 +1408,8 @@ bool value_t::is_zero() const
     return as_any().empty();
 
   default:
-    add_error_context(_f("While applying is_zero to %1%:") % *this);
+    add_error_context(_f("While applying is_zero to %1%:") 
+            % boost::lexical_cast<std::string>(*this));
     throw_(value_error, _f("Cannot determine if %1% is zero") % label());
   }
   return false;
@@ -1425,7 +1443,8 @@ value_t value_t::value(const datetime_t&   moment,
     break;
   }
 
-  add_error_context(_f("While finding valuation of %1%:") % *this);
+  add_error_context(_f("While finding valuation of %1%:") 
+          % boost::lexical_cast<std::string>(*this));
   throw_(value_error, _f("Cannot find the value of %1%") % label());
   return NULL_VALUE;
 }
@@ -1584,7 +1603,8 @@ value_t value_t::abs() const
     break;
   }
 
-  add_error_context(_f("While taking abs of %1%:") % *this);
+  add_error_context(_f("While taking abs of %1%:") 
+          % boost::lexical_cast<std::string>(*this));
   throw_(value_error, _f("Cannot abs %1%") % label());
   return NULL_VALUE;
 }
@@ -1608,7 +1628,7 @@ void value_t::in_place_round()
     break;
   }
 
-  add_error_context(_f("While rounding %1%:") % *this);
+  add_error_context(_f("While rounding %1%:") % boost::lexical_cast<std::string>(*this));
   throw_(value_error, _f("Cannot set rounding for %1%") % label());
 }
 
@@ -1631,7 +1651,7 @@ void value_t::in_place_truncate()
     break;
   }
 
-  add_error_context(_f("While truncating %1%:") % *this);
+  add_error_context(_f("While truncating %1%:") % boost::lexical_cast<std::string>(*this));
   throw_(value_error, _f("Cannot truncate %1%") % label());
 }
 
@@ -1654,7 +1674,7 @@ void value_t::in_place_floor()
     break;
   }
 
-  add_error_context(_f("While flooring %1%:") % *this);
+  add_error_context(_f("While flooring %1%:") % boost::lexical_cast<std::string>(*this));
   throw_(value_error, _f("Cannot floor %1%") % label());
 }
 
@@ -1677,7 +1697,8 @@ void value_t::in_place_unround()
     break;
   }
 
-  add_error_context(_f("While unrounding %1%:") % *this);
+  add_error_context(_f("While unrounding %1%:") 
+          % boost::lexical_cast<std::string>(*this));
   throw_(value_error, _f("Cannot unround %1%") % label());
 }
 
@@ -1686,7 +1707,8 @@ void value_t::annotate(const annotation_t& details)
   if (is_amount()) {
     as_amount_lval().annotate(details);
   } else {
-    add_error_context(_f("While attempting to annotate %1%:") % *this);
+    add_error_context(_f("While attempting to annotate %1%:") 
+            % boost::lexical_cast<std::string>(*this));
     throw_(value_error, _f("Cannot annotate %1%") % label());
   }
 }
@@ -1696,7 +1718,8 @@ bool value_t::has_annotation() const
   if (is_amount()) {
     return as_amount().has_annotation();
   } else {
-    add_error_context(_f("While checking if %1% has annotations:") % *this);
+    add_error_context(_f("While checking if %1% has annotations:") 
+            % boost::lexical_cast<std::string>(*this));
     throw_(value_error,
            _f("Cannot determine whether %1% is annotated") % label());
   }
@@ -1708,7 +1731,8 @@ annotation_t& value_t::annotation()
   if (is_amount()) {
     return as_amount_lval().annotation();
   } else {
-    add_error_context(_f("While requesting the annotations of %1%:") % *this);
+    add_error_context(_f("While requesting the annotations of %1%:") 
+            % boost::lexical_cast<std::string>(*this));
     throw_(value_error, _f("Cannot request annotation of %1%") % label());
     return as_amount_lval().annotation(); // quiet g++ warning
   }

@@ -217,7 +217,7 @@ balance_t::commodity_amount(const optional<const commodity_t&>& commodity) const
 
       throw_(amount_error,
              _f("Requested amount of a balance with multiple commodities: %1%")
-             % temp);
+             % boost::lexical_cast<std::string>(temp));
     }
   }
   else if (amounts.size() > 0) {
